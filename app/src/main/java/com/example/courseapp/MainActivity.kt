@@ -20,7 +20,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.courseapp.ui.theme.CourseappTheme
-import androidx.compose.ui.graphics.Color
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalConfiguration
 import android.content.res.Configuration
@@ -34,7 +33,7 @@ data class Course(
     val prerequisites: String
 )
 
-// Sample course data with six courses
+// Sample course data with ten courses
 val sampleCourses = listOf(
     Course(
         title = "Fundamentals of Cybersecurity",
@@ -64,19 +63,77 @@ val sampleCourses = listOf(
         description = "Explore the basics of artificial intelligence and its applications.",
         prerequisites = "None"
     ),
-
+    Course(
+        title = "Operating System",
+        code = "SECT-3152",
+        creditHours = 2,
+        description = "Learn the fundamentals of operating system design and management.",
+        prerequisites = "None"
+    ),
+    Course(
+        title = "Database",
+        code = "SECT-3153",
+        creditHours = 2,
+        description = "Understand database design, querying, and management.",
+        prerequisites = "None"
+    ),
+    Course(
+        title = "Fundamental of Software Engineering",
+        code = "SECT-3154",
+        creditHours = 2,
+        description = "Explore software development processes and methodologies.",
+        prerequisites = "None"
+    ),
+    Course(
+        title = "Web Development",
+        code = "SECT-3155",
+        creditHours = 2,
+        description = "Learn to build and maintain web applications.",
+        prerequisites = "None"
+    ),
+    Course(
+        title = "Discrete Mathematics",
+        code = "SECT-3156",
+        creditHours = 2,
+        description = "Study mathematical structures used in computer science.",
+        prerequisites = "None"
+    ),
+    Course(
+        title = "Data Structure",
+        code = "SECT-3157",
+        creditHours = 2,
+        description = "Explore algorithms and data structure implementations.",
+        prerequisites = "None"
+    )
 )
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            CourseappTheme {
+            // State to control dark/light mode
+            var isDarkMode by rememberSaveable { mutableStateOf(false) }
+
+            // Pass isDarkMode to CourseappTheme
+            CourseappTheme(isDarkMode = isDarkMode) {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    CourseListScreen(courses = sampleCourses)
+                    Column {
+                        // Toggle button for theme
+                        Button(
+                            onClick = { isDarkMode = !isDarkMode },
+                            modifier = Modifier
+                                .align(Alignment.End)
+                                .padding(8.dp)
+                        ) {
+                            Text(text = if (isDarkMode) "Switch to Light Mode" else "Switch to Dark Mode")
+                        }
+
+                        // Course list screen
+                        CourseListScreen(courses = sampleCourses)
+                    }
                 }
             }
         }
